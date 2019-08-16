@@ -1,6 +1,7 @@
 # iron-meta-pipeline
 
 ![The Iron Pipeline](img/braingauntlet.png)
+*Adapted from wikipedia: https://en.wikipedia.org/wiki/File:Thanos_and_Infinity_Gems.jpg
 
 **What is this?** A general pipeline to generate tractography from diffusion MRI data.
 
