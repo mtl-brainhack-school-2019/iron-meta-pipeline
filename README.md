@@ -1,5 +1,7 @@
 # iron-meta-pipeline
 
+![The Iron Pipeline](img/braingauntlet.png)
+
 **What is this?** A general pipeline to generate tractography from diffusion MRI data.
 
 **Another one??** The idea is to build a meta-pipeline able to embed the processing workflow, relying on existing tools without reinventing the wheel.
