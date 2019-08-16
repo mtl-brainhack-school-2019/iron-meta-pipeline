@@ -36,6 +36,11 @@
 - Jupyter notebook to show the different outcomes from the most used pipelines;
 - Implementing the pipelines used for the previous ISMRM Tractography Challenge (details published in Maier-Hein et al. 2017).
 
+## SciComm
+
+- NeuroLibre contribution comparing different tractography pipelines;
+- Potential to create a web interface through Giraffe Tools
+
 ## To-do list
 
 - [x] Create a sketch of how the system would work;
