@@ -21,12 +21,19 @@
 - Provide an easy-to-use way to build your own workflow;
 - Pave the way for inter-pipeline comparisons and parameter-dependencies in one unique system;
 
+## Tools
+
+- Nipype;
+- Giraffe tools;
+- Jupyter;
+- Boutiques.
+
+
 ## Project deliverables
 
 - Command-line software to reconstruct tractography from diffusion data with the freedom of choosing preprocessing steps, tracking algorithms and filtering post-processing;
 - Jupyter notebook to show the different outcomes from the most used pipelines;
 - Implementing the pipelines used for the previous ISMRM Tractography Challenge (details published in Maier-Hein et al. 2017).
-
 
 ## To-do list
 
@@ -46,6 +53,8 @@
 
 
 ## Brief background
+
+![Typical tractography workflow](img/tractography.png)
 
 Every tractography pipeline can be summerized in three steps:
 
