@@ -1,5 +1,7 @@
 # iron-meta-pipeline
 
+Update: it is ready to use! Check the official repository for [TRAMPOLINO](https://github.com/matteomancini/trampolino) and try it out: `pip install trampolino`
+
 ![The Iron Pipeline](img/braingauntlet.png)
 *Adapted from wikipedia: https://en.wikipedia.org/wiki/File:Thanos_and_Infinity_Gems.jpg*
 
@@ -39,15 +41,15 @@
 ## SciComm
 
 - NeuroLibre contribution comparing different tractography pipelines;
-- Potential to create a web interface through Giraffe Tools
+- Potential to create a web interface through Giraffe Tools.
 
 ## To-do list
 
 - [x] Create a sketch of how the system would work;
-- [ ] Create first workflows for pre-processing, tracking and filtering;
-- [ ] Design a way to easily combine the specific workflows in a meta-workflow;
+- [x] Create first workflows for pre-processing, tracking and filtering;
+- [x] Design a way to easily combine the specific workflows in a meta-workflow;
 - [ ] Embed the system in Boutiques;
-- [ ] Test it!
+- [x] Test it!
 - [ ] Assemble the pipeline for the IronTract Challange;
 - [ ] Submit the results;
 - [ ] Fingers crossed!
