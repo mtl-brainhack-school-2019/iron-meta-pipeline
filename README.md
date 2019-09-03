@@ -1,84 +1,24 @@
-# iron-meta-pipeline
+# My BrainHack project: TRAMPOLINO (TRActography Meta-Pipeline cOmmand LINe tOol)
 
-Update: it is ready to use! Check the official repository for [TRAMPOLINO](https://github.com/matteomancini/trampolino) and try it out: `pip install trampolino`
+*Check the official repository for [TRAMPOLINO](https://github.com/matteomancini/trampolino) and try it out:* `pip install trampolino`
 
-![The Iron Pipeline](img/braingauntlet.png)
-*Adapted from wikipedia: https://en.wikipedia.org/wiki/File:Thanos_and_Infinity_Gems.jpg*
+### Project definition
 
-**What is this?** A general pipeline to generate tractography from diffusion MRI data.
+I chose to focus my project on diffusion MRI and tractography. Reconstructing white matter fibre bundles in vivo has a tremendous potential both for better understanding the brain as a complex system and for clinical applications. Although many algorithms and approaches have been proposed so far, there are still issues in terms of false positive, and given the very different implementations and the potential influencing factors, it is hard to easily compare different pipelines and clarify the effects of the different parameters. Therefore, my goal was to build a meta-pipeline tool that would allow to implement a given workflow interfacing with several software toolboxes available and offering an easy way to explore the influence of the parameters on the final outcome. I decided to break down any given pipeline in three fundamental steps: reconstruction, where the diffusion data are used to estimate a tensor representation or to fit a fibre orientation distribution by means of more complex approaches (e.g. spherical harmonics, Q-ball); tracking, where streamlines are reconstructed from the fibre orientation distribution using a chosen algorithm, which may be deterministic or probabilistic; and filtering, where the spurious streamlines are removed on the basis of anatomical priors or with data-driven methods.
 
-**Another one??** The idea is to build a meta-pipeline able to embed the processing workflow, relying on existing tools without reinventing the wheel.
+### Learning experience
 
-**Why?** Mainly to allow anyone with diffusion data to run one of many pipelines used in papers or in previous tractography challenges.
+To implement a modular and extensible tool, I chose to use the Python programming language and the Nipype package, which allowed me to build on top of already existing interfaces to common tractography software toolboxes. Although some workflows are also already available, they are quite outdated. To assemble new workflows, I used Giraffe Tools and Porcupine: in this way it was possible to easily build a first reconstruction pipeline just by assembling the interface blocks. This was my first attempt to build an actual entire application in Python, so as a starting point I chose to use the Cookiecutter package to start working on a minimal template for general Python packages. I never used such a package but it was relatively straightforward. To handle the meta-pipeline using a command line interface (CLI), I decided to use the Click package, which was new to me. The Click package allow to easily build a modular CLI and handle multiple subcommands. Finally, to make my tool available to the general public, I decided to create a dedicated Github repository and to upload the final package to the Python Package Index, so anyone would be able to install it using the popular pip tool.
 
-**How?** The workflows will be developed using Nipype and Giraffe tools, and the whole thing will be assembled in Boutiques in order to have an easy way to describe inputs, processing steps and outputs.
+### Results
+The tool, called TRAMPOLINO (TRActography Meta-Pipeline cOmmand LINe tOol), is available on https://github.com/matteomancini/trampolino and can be easily installed typing in a terminal: `pip install trampolino`. An example of complete command is the following:
 
-**Well, that's it?** As a first concrete application, this pipeline will be used to create a submission to the IronTract challenge! Stay tuned for the results!
+> trampolino -w /home/me -n results recon -i dwi_series_cor.nii -v bvecs -b bvals mrtrix_msmt_csd track mrtrix_tckgen filter mrtrix_tcksift
 
-![Workflow sketch](img/workflow.png)
+![Output example](img/output.png)
 
+TRAMPOLINO is fully modular, so it is possible for example to run just one of the steps (e.g. just tracking). There are specific options to perform tractographies with different parameters, for example the angular threshold and the algorithm. 
 
-## Main goals
+![Angular thresholds and algorithms](img/parameters.png)
 
-- Build a modular pipeline that can be used to compute tractography from diffusion data;
-- Provide an easy-to-use way to build your own workflow;
-- Pave the way for inter-pipeline comparisons and parameter-dependencies in one unique system;
-
-## Tools
-
-- Nipype;
-- Giraffe tools;
-- Jupyter;
-- Boutiques.
-
-
-## Project deliverables
-
-- Command-line software to reconstruct tractography from diffusion data with the freedom of choosing preprocessing steps, tracking algorithms and filtering post-processing;
-- Jupyter notebook to show the different outcomes from the most used pipelines;
-- Implementing the pipelines used for the previous ISMRM Tractography Challenge (details published in Maier-Hein et al. 2017).
-
-## SciComm
-
-- NeuroLibre contribution comparing different tractography pipelines;
-- Potential to create a web interface through Giraffe Tools.
-
-## To-do list
-
-- [x] Create a sketch of how the system would work;
-- [x] Create first workflows for pre-processing, tracking and filtering;
-- [x] Design a way to easily combine the specific workflows in a meta-workflow;
-- [ ] Embed the system in Boutiques;
-- [x] Test it!
-- [ ] Assemble the pipeline for the IronTract Challange;
-- [ ] Submit the results;
-- [ ] Fingers crossed!
-
-
-## Open issues
-
--- stay tuned (because there will be!) --
-
-
-## Brief background
-
-![Typical tractography workflow](img/tractography.png)
-
-Every tractography pipeline can be summerized in three steps:
-
-1. Pre-processing/modelling: the diffusion data is pre-processed to remove artifacts and subsequently represented as a tensor or modelled using more complex approaches (e.g. spherical harmonics, Q-ball), obtaining a fiber orientation distribution (FOD);
-2. Tracking: the FOD is then used to reconstruct potential trajectories of the streamlines; each specific algorithm uses either a deterministic or a probabilistic approach;
-3. Filtering: the tractography is then filtered to remove spurious streamlines (e.g. by means of clustering).
-
-During these steps, additional constraints and priors are used during the tracking and filtering stages.
-One example of this organization is given in the supplementary materials of Maier-Hein et al. 2017 , where each pipeline in the challenge is briefly described. However, given the different tools used in each case, it is difficult to reproduce those pipelines and compare them on a different dataset or with different parameters. This pipeline would allow to use one framework keeping the freedom to choose any tool.
-
-
-## About me
-
-I am a postdoctoral fellow at Polytechnique Montréal, where I am working on a multi-site fellowship project on myeling mapping. My PhD dissertation was on brain connectivity, specifically using networks models and graph measures to characterize non-invasive brain stimulation. I spent the last two-years as a research associate at UCL working on the topics of tractography and multimodal imaging.
-
-## References
-
-Maier-Hein et al. (2017) The challenge of mapping the human connectome based on diffusion tractography. Nature Communications 8: 1349.
-
+The following filtering step is then performed on all of the tractography results. Another option is the one related to ensemble tractography: it is possible to combine together the streamlines in one single tractography and proceed with the filtering with that one. So far, I implemented just one option for each of the pipeline steps, interfacing the MRtrix software. Since the related MRtrix interface as implemented in Nipype had a few bugs, I corrected them and sent a pull request to the Nipype project on Github. In the meantime, I inserted the corrected code for the MRtrix interface directly in TRAMPOLINO. Future work will include adding more workflows and building containers with the required software packages.
